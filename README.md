@@ -7,6 +7,12 @@ Initially, a full multi-task/multiclass approach was considered to predict artis
  - Base Training: The CRNN was first trained specifically for Artist Classification. This allowed the model to develop a strong feature extractor (the CNN backbone + BiLSTM) capable of recognizing unique brushwork and compositional patterns.
  - Feature Reuse: The weights from this artist-centric model were then used as a foundation. By fine-tuning these weights for Genre and Style, the model converged much faster than training from scratch.
 
+## Results
+<img src="results/artist_class_report.png" alt="artist class result" width="800">
+<img src="results/artist_clusters_tsne.png" alt="artist clusters" width="800">
+<img src="results/confusion_matrix.png" alt="confusion matrix" width="800">
+<img src="results/outliers.png" alt="outliers" width="800">
+
 ## Repository Structure
 * `model.py` - Core PyTorch `ResNetBiLSTM` architecture.
 * `artist_data.py` - Custom PyTorch Dataset for loading WikiArt images and CSV labels.

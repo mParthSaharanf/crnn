@@ -2,6 +2,11 @@
 This repository implements a Convolutional Recurrent Neural Network (CRNN) to classify artwork and extract rich visual embeddings. The architecture leverages a pre-trained **ResNet-50 backbone**, a **BiLSTM** for sequential feature processing, and **Attention Pooling** to generate robust representations of paintings.
 Because the model generates high-quality intermediate embeddings, it is highly effective for transfer learning, t-SNE clustering, and anomaly/outlier detection using cosine similarity.
 
+## Methodology
+Initially, a full multi-task/multiclass approach was considered to predict artist, style, and genre simultaneously. However, to optimize computational efficiency and ensure the model captured high-level artistic nuances first, a staged approach was adopted:
+ - Base Training: The CRNN was first trained specifically for Artist Classification. This allowed the model to develop a strong feature extractor (the CNN backbone + BiLSTM) capable of recognizing unique brushwork and compositional patterns.
+ - Feature Reuse: The weights from this artist-centric model were then used as a foundation. By fine-tuning these weights for Genre and Style, the model converged much faster than training from scratch.
+
 ## Repository Structure
 * `model.py` - Core PyTorch `ResNetBiLSTM` architecture.
 * `artist_data.py` - Custom PyTorch Dataset for loading WikiArt images and CSV labels.

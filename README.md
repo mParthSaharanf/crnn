@@ -1,4 +1,4 @@
-# crnn
+# CRNN
 This repository implements a Convolutional Recurrent Neural Network (CRNN) to classify artwork and extract rich visual embeddings. The architecture leverages a pre-trained **ResNet-50 backbone**, a **BiLSTM** for sequential feature processing, and **Attention Pooling** to generate robust representations of paintings.
 Because the model generates high-quality intermediate embeddings, it is highly effective for transfer learning, t-SNE clustering, and anomaly/outlier detection using cosine similarity.
 

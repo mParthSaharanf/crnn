@@ -26,3 +26,11 @@ To train the model on a new task (like "genre"), the transfer learning script wi
 ### 4. Evaluation
 Evaluate the fine-tuned model and generate a visual confusion matrix.
  - python evaluate.py
+
+
+## 📄 Reference
+
+Tan, W. R., Chan, C. S., Aguirre, H., & Tanaka, K. (2019).  
+**Improved ArtGAN for Conditional Synthesis of Natural Image and Artwork**.  
+*IEEE Transactions on Image Processing*, 28(1), 394–409.  
+https://doi.org/10.1109/TIP.2018.2866698

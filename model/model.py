@@ -23,9 +23,8 @@ class ResNetBiLSTM(nn.Module):
                  dropout=0.2):
         super(ResNetBiLSTM, self).__init__()
         
-        # Load pre-trained ResNet-50 model
         resnet = models.resnet50(pretrained=True)
-        self.backbone = nn.Sequential(*list(resnet.children())[:-2])  # Remove the last two layers (avgpool and fc)
+        self.backbone = nn.Sequential(*list(resnet.children())[:-2]) 
         self.feature_dim = 2048
 
         self.lstm = nn.LSTM(
@@ -47,16 +46,15 @@ class ResNetBiLSTM(nn.Module):
 
     def forward(self, x):
 
-        # ---- CNN ----
         features = self.backbone(x)              # (B, 2048, 7, 7)
         B, C, H, W = features.shape
 
         sequence = features.contiguous().view(B, C, H * W).permute(0, 2, 1)  # (B, T=49, C=2048)
-        # ---- BiLSTM ----
+
         lstm_out, _ = self.lstm(sequence)        # (B, T, H*D)
-        # ---- Attention Pooling ----
+
         embedding = self.attention(lstm_out)     # (B, H*D)
-        # ---- Classification ----
+
         artist_logits = self.classifier(embedding)  # (B, num_artists)          
         return {
             "artist": artist_logits,

@@ -10,8 +10,6 @@ from model import ResNetBiLSTM
 from artist_data import ArtistDataset
 from torchvision import transforms
 
-# ===== Paths =====
-
 task = "genre"
 
 image_root = "wikiart"
@@ -19,19 +17,13 @@ val_csv = f"wikiart_csv/{task}_val_clean.csv"
 class_file = f"wikiart_csv/{task}_class.txt"
 model_path = f"checkpoints/{task}_best_model.pt"
 
-# ===== Device =====
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
-
-# ===== Classes =====
 
 class_names = [line.strip() for line in open(class_file)]
 num_classes = len(class_names)
 
 print("Number of classes:", num_classes)
-
-# ===== Transform =====
 
 transform = transforms.Compose([
     transforms.Resize((224,224)),
@@ -39,8 +31,6 @@ transform = transforms.Compose([
     transforms.Normalize([0.485,0.456,0.406],
                          [0.229,0.224,0.225])
 ])
-
-# ===== Dataset =====
 
 val_dataset = ArtistDataset(val_csv, image_root, transform)
 
@@ -52,14 +42,10 @@ val_loader = DataLoader(
 
 print("Validation samples:", len(val_dataset))
 
-# ===== Model =====
-
 model = ResNetBiLSTM(num_artists=num_classes).to(device)
 model.load_state_dict(torch.load(model_path, map_location=device))
 
 model.eval()
-
-# ===== Evaluation =====
 
 all_preds = []
 all_labels = []
@@ -77,8 +63,6 @@ with torch.no_grad():
         all_preds.extend(preds)
         all_labels.extend(labels.numpy())
 
-# ===== Metrics =====
-
 print("\n==============================")
 print("CLASSIFICATION REPORT")
 print("==============================\n")
@@ -93,8 +77,6 @@ acc = accuracy_score(all_labels, all_preds)
 
 print("Overall Accuracy:", acc)
 
-# ===== Confusion Matrix =====
-
 cm = confusion_matrix(all_labels, all_preds)
 
 print("\n==============================")
@@ -102,8 +84,6 @@ print("CONFUSION MATRIX")
 print("==============================\n")
 
 print(cm)
-
-# ===== Plot Confusion Matrix =====
 
 plt.figure(figsize=(12,10))
 

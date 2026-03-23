@@ -13,9 +13,6 @@ from artist_data import ArtistDataset
 from model import ResNetBiLSTM
 
 
-# =============================
-# Train One Epoch
-# =============================
 def train_one_epoch(model, loader, criterion, optimizer, device):
     model.train()
     running_loss = 0
@@ -38,10 +35,6 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
 
     return running_loss / total, correct / total
 
-
-# =============================
-# Validation
-# =============================
 def evaluate(model, loader, criterion, device):
     model.eval()
     running_loss = 0
@@ -74,10 +67,6 @@ def evaluate(model, loader, criterion, device):
         np.array(all_preds),
     )
 
-
-# =============================
-# Plot Metrics
-# =============================
 def plot_metrics(history, save_path):
     epochs = range(1, len(history["train_loss"]) + 1)
 
@@ -93,13 +82,8 @@ def plot_metrics(history, save_path):
     plt.savefig(save_path)
     plt.close()
 
-
-# =============================
-# Main
-# =============================
 def main():
 
-    # ==== Config ====
     batch_size = 16
     num_epochs = 30
     learning_rate = 1e-4
@@ -157,7 +141,6 @@ def main():
     best_val_loss = float("inf")
     epochs_no_improve = 0
 
-    # ==== Training Loop ====
     for epoch in range(num_epochs):
 
         print(f"\nEpoch [{epoch+1}/{num_epochs}]")
@@ -180,23 +163,21 @@ def main():
         print(f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f}")
         print(f"Val   Loss: {val_loss:.4f} | Val   Acc: {val_acc:.4f}")
 
-        # ==== Save Best Model ====
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             epochs_no_improve = 0
             torch.save(model.state_dict(), os.path.join(save_dir, "best_model.pt"))
-            print("✅ Best model saved.")
+            print("Best model saved.")
         else:
             epochs_no_improve += 1
             print(f"No improvement ({epochs_no_improve}/{patience})")
 
         if epochs_no_improve >= patience:
-            print("⛔ Early stopping triggered.")
+            print("Early stopping triggered.")
             break
 
         torch.save(model.state_dict(), os.path.join(save_dir, "last_model.pt"))
 
-    # ==== Final Evaluation ====
     print("\nFinal Classification Report:")
     print(classification_report(all_labels, all_preds))
 

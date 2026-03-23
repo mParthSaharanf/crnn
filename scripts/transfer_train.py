@@ -91,8 +91,8 @@ def evaluate(model, loader, criterion, device):
 
 def main():
 
-    # ===== Choose task =====
-    task = "genre"   # change to "genre"
+    # Choose task
+    task = "genre"   # change to "genre" or "style" as needed
 
     image_root = "wikiart"
 
@@ -122,11 +122,7 @@ def main():
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
 
-    # ===== Model =====
-
     model = ResNetBiLSTM(num_artists=num_classes).to(device)
-
-    # ===== Load artist weights =====
 
     model = load_pretrained_exclude_classifier(
         model,

@@ -16,3 +16,13 @@ Because the model generates high-quality intermediate embeddings, it is highly e
 ### 1. Base Training (Artist Classification)
 Train the model from scratch to classify artists. This will create a `checkpoints/best_model.pt` file.
 ### 2. Extracting Embeddings & Finding Similarities
+Once the base model is trained, extract the dense embeddings to analyze the latent space.
+ - python extract_embeddings.py
+ - python visualize_embeddings.py
+ - python show_outliers.py
+### 3. Transfer Learning (Genre or Style Classification)
+To train the model on a new task (like "genre"), the transfer learning script will load the base weights (excluding the old classifier head) to jumpstart training.
+ - python transfer_train.py
+### 4. Evaluation
+Evaluate the fine-tuned model and generate a visual confusion matrix.
+ - python evaluate.py
